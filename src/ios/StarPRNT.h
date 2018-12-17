@@ -27,6 +27,7 @@
 - (void)print:(CDVInvokedUrlCommand *)command;
 - (void)printData:(CDVInvokedUrlCommand *)command;
 - (void)printRawData:(CDVInvokedUrlCommand *)command;
+- (void)sendBase64Bytes:(CDVInvokedUrlCommand *)command;
 - (void)printReceipt:(CDVInvokedUrlCommand *)command;
 - (void)printTicket:(CDVInvokedUrlCommand *)command;
 - (void)activateBlackMarkSensor:(CDVInvokedUrlCommand *)command;

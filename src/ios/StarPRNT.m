@@ -445,6 +445,38 @@ static NSString *dataCallbackId = nil;
     }];
 }
 
+- (void)sendBase64Bytes:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *portName = nil;
+        NSString *emulation = nil;
+        NSDictionary *printObj = nil;
+        NSString *content = nil;
+
+        if (command.arguments.count > 0) {
+            portName = [command.arguments objectAtIndex:0];
+            emulation = [command.arguments objectAtIndex:1];
+            content = [command.arguments objectAtIndex:2];
+        }
+
+        NSString *portSettings = [self getPortSettingsOption:emulation];
+
+        NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:content options:0];
+
+        if(portName != nil && portName != (id)[NSNull null]){
+            [self sendCommand:[decodedData copy]
+                     portName:portName
+                 portSettings:portSettings
+                      timeout:10000
+                   callbackId:command.callbackId];
+        }else{ //Use StarIOExtManager and send command to connected printer
+            [self sendCommand:[builder.commands copy]
+                   callbackId:command.callbackId];
+        }
+
+        [self sendCommand:[builder.commands copy] callbackId:command.callbackId];
+    }];
+}
+
 - (void)printData:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         SCBAlignmentPosition alignment = SCBAlignmentPositionCenter;

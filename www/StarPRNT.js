@@ -30,6 +30,9 @@ module.exports = {
     print: function(port, emulation, printCommands, success, error){ //exposes all methods for the CommandBuilderInterface / ISCBBuilderInterface
         exec(success, error, "StarPRNT", "print", [port, emulation, printCommands]);
     },
+    sendBase64Bytes: function(port, emulation, base64Data, success, error){
+        exec(success, error, "StarPRNT", "sendBase64Bytes", [port, emulation, base64Data]);
+    },
     disconnect: function (success, error) {
         exec(success, error, "StarPRNT", "disconnect", []);
     },

@@ -120,14 +120,24 @@ public class StarPRNT extends CordovaPlugin {
                // e.printStackTrace();
             }
             return true;
-    }else if (action.equals("print")){
+    } else if (action.equals("print")){
         String portName = args.getString(0);
         String portSettings = getPortSettingsOption(portName, args.getString(1));
         Emulation emulation = getEmulation(args.getString(1));
         JSONArray printCommands = args.getJSONArray(2);
         this.print(portName, portSettings, emulation, printCommands, callbackContext);
         return true;
-    }else if (action.equals("openCashDrawer")){
+    } else if (action.equals("sendBase64Bytes")) {
+        String portName = args.getString(0);
+        String portSettings = getPortSettingsOption(portName, args.getString(1));
+        String base64Bytes = args.getString(2);
+        byte[] data = Base64.decode(base64Bytes, Base64.DEFAULT);
+        if(portName.equals("null")) { // use StarIOExtManager
+            sendCommand(data, starIoExtManager.getPort(), callbackContext);
+        } else { //use StarIOPort
+            sendCommand(this.cordova.getActivity(), portName, portSettings, data, callbackContext);
+        }
+    } else if (action.equals("openCashDrawer")){
         String portName = args.getString(0);
         String portSettings = getPortSettingsOption(portName, args.getString(1));
         Emulation emulation = getEmulation(args.getString(1));
